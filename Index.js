@@ -24,8 +24,63 @@ function showTeams(teams){
     document.querySelector('table tbody').innerHTML = html.join('');
 }
 
+function $(selector){
+    return document.querySelector(selector);
+}
+
+function formSubmit(e){
+    e.preventDefault();
+    createTeamRequest();
+}
+
+function initEvents(){
+    $('#editForm').addEventListener('submit', formSubmit)
+}
+
 getTeamsRequest().then((r) => {
     showTeams(r);
+});
+ 
+initEvents();
+
+// POST teams-json/create
+function createTeamRequest(){
+    fetch("http://localhost:3000/teams-json/create", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        promotion: "WON3",
+        members: "Your Name",
+        name: "CV",
+        url: "https://github.com/nmatei/teams-networking"
+    })
+    });
+}
+
+// DELETE teams-json/delete
+fetch("http://localhost:3000/teams-json/delete", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ id: "fedcba1610309909431" })
+});
+
+// PUT teams-json/update
+fetch("http://localhost:3000/teams-json/update", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    id: "fedcba1610310163146",
+    promotion: "WON3",
+    members: "UpdatedName",
+    name: "Name",
+    url: "https://github.com/nmatei/teams-networking"
+  })
 });
 
 /*
